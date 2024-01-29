@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Malicious Mail LLM Evaluation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Malicious Mail LLM Evaluation</h1>
+    <div class="container">
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function fetchResults() {
+            fetch('/get-results')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('results').innerText = data;
+                });
+        }
+
+        setInterval(fetchResults, 5000);
+    </script>
+</body>
+</html>
