@@ -16,7 +16,21 @@
             fetch('/get-results')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('results').innerText = data;
+                    const resultsContainer = document.getElementById('results');
+                    resultsContainer.innerHTML = '';
+                    data.forEach(email => {
+                        const emailDiv = document.createElement('div');
+                        emailDiv.className = 'email-box';
+                        emailDiv.innerHTML = `
+                            <h2>${email.subject}</h2>
+                            <p><b>Sender:</b> ${email.sender}</p>
+                            <p><b>Sender Email:</b> ${email.sender_address}</p>
+                            <p><b>Timestamp:</b> ${email.timestamp}</p>
+                            <div class="email-content"><p>${email.content}</p></div>
+                            <div class="email-evaluation"><p>${email.evaluation}</p></div>
+                        `;
+                        resultsContainer.appendChild(emailDiv);
+                    });
                 });
         }
 

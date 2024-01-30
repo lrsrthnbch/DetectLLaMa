@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, render_template
+import sqlite3
 import logging
 import threading
 import pythoncom
@@ -9,32 +10,53 @@ import eval
 
 app = Flask(__name__)
 
+db_file = 'emails.db'
+
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
 def fetch_and_analyze_emails():
     print("Monitoring Outlook for incoming E-Mails...")
-    pythoncom.CoInitialize()
-    try:
-        while True:
-            fetch.fetch_emails()
-            eval.evaluate_emails()
-            time.sleep(10)
-    finally:
-        pythoncom.CoUninitialize()
+    while True:
+        pythoncom.CoInitialize()
         
-@app.route('/')
-def index():
-    return render_template('index.html')
+        fetch.fetch_emails()
+        
+        eval.evaluate_emails()
+
+        pythoncom.CoUninitialize()
+
+        time.sleep(10)
 
 @app.route('/get-results', methods=['GET'])
 def get_results():
-    if os.path.exists('results/results.txt'):
-        with open('results/results.txt', 'r') as file:
-            results = file.read()
-    else:
-        results = "No results available yet."
-    return jsonify(results)
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM emails")
+    emails = cursor.fetchall()
+    conn.close()
+    email_list = []
+    for email in emails:
+        email_dict = {
+            "id": email[0],
+            "subject": email[1],
+            "sender": email[2],
+            "sender_address": email[3],
+            "timestamp": email[4],
+            "content": email[5],
+            "evaluation": email[6]
+        }
+        email_list.append(email_dict)
+    return jsonify(email_list)
+
+@app.route('/')
+def index():
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM emails")
+    emails = cursor.fetchall()
+    conn.close()
+    return render_template('index.html', emails=emails)
 
 if __name__ == '__main__':
     threading.Thread(target=fetch_and_analyze_emails, daemon=True).start()
