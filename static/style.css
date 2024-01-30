@@ -13,32 +13,35 @@ h1 {
 }
 
 .container {
-    width: 60%;
+    width: 80%;
     margin: auto;
     margin-top: 20px;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    border-radius: 5px;
 }
 
 .email-box {
-    border: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 5px;
     padding: 15px;
     margin-bottom: 20px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
 }
 
-.email-content, .email-evaluation {
-    margin-top: 10px;
+.email-header {
+    margin-bottom: 10px;
+}
+
+.email-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.original-content, .evaluation {
+    width: 48%;
     padding: 5px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
 }
 
-#results {
-    font-size: 16px;
-    color: #333;
+.original-content {
+    font-style: italic;
 }
+
+/* Additional styling if needed */
