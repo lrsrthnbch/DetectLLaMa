@@ -1,26 +1,42 @@
+import sqlite3
 import win32com.client
 import os
 import datetime
 
-def save_email_content(email, filename):
-    with open(filename, 'w', encoding='utf-8') as file:
-        file.write(f"Subject: {email.Subject}\n")
-        file.write(f"Sender: {email.SenderName}\n")
-        file.write(f"Sender Email: {email.SenderEmailAddress}\n")
-        file.write(f"Received Time: {email.ReceivedTime}\n")
-        file.write(f"Body:\n{email.Body}\n")
+db_file = 'emails.db'
+
+def email_exists(subject, sender, timestamp):
+    conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM emails WHERE subject = ? AND sender = ? AND timestamp = ?", (subject, sender, timestamp))
+    exists = cursor.fetchone() is not None
+    conn.close()
+    return exists
+
+def save_email_content(email):
+    subject = email.Subject
+    sender = email.SenderName
+    sender_address = email.SenderEmailAddress
+    timestamp = email.ReceivedTime.strftime("%Y-%m-%d %H:%M:%S")
+    content = email.Body
+
+    if not email_exists(subject, sender, timestamp):
+        conn = sqlite3.connect(db_file)
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO emails (subject, sender, sender_address, timestamp, content) VALUES (?, ?, ?, ?, ?)", (subject, sender, sender_address, timestamp, content))
+        conn.commit()
+        conn.close()
 
 def fetch_emails():
     outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
     inbox = outlook.GetDefaultFolder(6)
 
-    save_path = "mails/"
-
     for email in inbox.Items:
         if email.UnRead:
             email.UnRead = False
+            save_email_content(email)
 
-            filename = f"{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}_{email.SenderName}.txt"
-            filepath = os.path.join(save_path, filename)
+if __name__ == "__main__":
+    fetch_emails()
 
-            save_email_content(email, filepath)
+# fetch_emails()

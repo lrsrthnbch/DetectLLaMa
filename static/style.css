@@ -13,17 +13,35 @@ h1 {
 }
 
 .container {
-    width: 60%;
+    width: 80%;
     margin: auto;
     margin-top: 20px;
-    padding: 20px;
+}
+
+.email-box {
     background-color: #fff;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
 }
 
-#results {
-    white-space: pre-line;
-    font-size: 16px;
-    color: #333;
+.email-header {
+    margin-bottom: 10px;
 }
+
+.email-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+.original-content, .evaluation {
+    width: 48%;
+    padding: 5px;
+}
+
+.original-content {
+    font-style: italic;
+}
+
+/* Additional styling if needed */
