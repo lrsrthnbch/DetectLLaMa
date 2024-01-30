@@ -47,5 +47,5 @@ python database.py
 1. Start the Flask Server:
 
 ```
-python webui.py
+start_webui.bat
 ```
