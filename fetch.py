@@ -26,17 +26,21 @@ def save_email_content(email):
         cursor.execute("INSERT INTO emails (subject, sender, sender_address, timestamp, content) VALUES (?, ?, ?, ?, ?)", (subject, sender, sender_address, timestamp, content))
         conn.commit()
         conn.close()
+        return True
+    return False
 
 def fetch_emails():
+    new_emails_fetched = False
     outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
     inbox = outlook.GetDefaultFolder(6)
+    emails = inbox.Items.Restrict("[UnRead] = True")
 
-    for email in inbox.Items:
-        if email.UnRead:
+    for email in emails:
+        if save_email_content(email):
+            new_emails_fetched = True
             email.UnRead = False
-            save_email_content(email)
+
+    return new_emails_fetched
 
 if __name__ == "__main__":
     fetch_emails()
-
-# fetch_emails()
