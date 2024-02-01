@@ -49,6 +49,15 @@ def get_results():
         email_list.append(email_dict)
     return jsonify(email_list)
 
+@app.route('/get-log', methods=['GET'])
+def get_log():
+    try:
+        with open('C:\\tmp\\lmstudio-server-log.txt', 'r', encoding='utf-8') as file:
+            log_data = file.readlines()[-100:]
+        return ''.join(log_data), 200, {'Content-Type': 'text/plain'}
+    except UnicodeDecodeError:
+        return "Error reading log file", 500
+
 @app.route('/')
 def index():
     conn = sqlite3.connect(db_file)
