@@ -1,1 +1,3 @@
 _pachache_/
+*.pyc
+*.db
