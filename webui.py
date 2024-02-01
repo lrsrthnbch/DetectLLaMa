@@ -19,14 +19,16 @@ def fetch_and_analyze_emails():
     print("Monitoring Outlook for incoming E-Mails...")
     while True:
         pythoncom.CoInitialize()
-        
-        fetch.fetch_emails()
-        
-        eval.evaluate_emails()
+
+        new_emails_fetched = fetch.fetch_emails()
+
+        if new_emails_fetched:
+            eval.evaluate_emails()
 
         pythoncom.CoUninitialize()
 
         time.sleep(10)
+
 
 @app.route('/get-results', methods=['GET'])
 def get_results():
