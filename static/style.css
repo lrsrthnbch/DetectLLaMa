@@ -44,4 +44,17 @@ h1 {
     font-style: italic;
 }
 
+.log-container {
+    background-color: black;
+    color: #ffaa43;
+    font-family: monospace;
+    overflow-y: auto;
+    height: 100px; /* Adjust height as needed */
+    padding: 15px;
+    white-space: pre-line;
+    border-radius: 5px; /* Rounded corners like email-box */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Shadow effect similar to email-box */
+    margin-bottom: 20px; /* Consistent spacing with other elements */
+}
+
 /* Additional styling if needed */
