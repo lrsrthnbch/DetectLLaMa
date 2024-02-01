@@ -27,7 +27,7 @@ def fetch_and_analyze_emails():
 
         pythoncom.CoUninitialize()
 
-        time.sleep(10)
+        time.sleep(5)
 
 
 @app.route('/get-results', methods=['GET'])

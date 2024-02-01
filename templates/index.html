@@ -18,7 +18,7 @@
             .then(response => response.json())
             .then(data => {
                 const resultsContainer = document.getElementById('results');
-                resultsContainer.innerHTML = ''; // Clear existing content
+                resultsContainer.innerHTML = '';
                 data.forEach(email => {
                     const emailDiv = document.createElement('div');
                     emailDiv.className = 'email-box';
@@ -60,7 +60,7 @@
             });
         }
 
-        setInterval(fetchResults, 5000);
+        setInterval(fetchResults, 1000);
         setInterval(fetchLog, 100);
     </script>
 </body>

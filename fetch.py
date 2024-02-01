@@ -26,21 +26,21 @@ def save_email_content(email):
         cursor.execute("INSERT INTO emails (subject, sender, sender_address, timestamp, content) VALUES (?, ?, ?, ?, ?)", (subject, sender, sender_address, timestamp, content))
         conn.commit()
         conn.close()
-        return True  # Return True to indicate that a new email was saved
-    return False  # No new email was saved
+        return True
+    return False
 
 def fetch_emails():
-    new_emails_fetched = False  # Track whether any new emails were fetched
+    new_emails_fetched = False
     outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
     inbox = outlook.GetDefaultFolder(6)
-    emails = inbox.Items.Restrict("[UnRead] = True")  # Filter for only unread emails
+    emails = inbox.Items.Restrict("[UnRead] = True")
 
     for email in emails:
         if save_email_content(email):
             new_emails_fetched = True
-            email.UnRead = False  # Mark as read only after successful save
+            email.UnRead = False
 
-    return new_emails_fetched  # Return whether any new emails were fetched
+    return new_emails_fetched
 
 if __name__ == "__main__":
     fetch_emails()
