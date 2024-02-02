@@ -61,6 +61,19 @@ def get_log():
     except UnicodeDecodeError:
         return "Error reading log file", 500
 
+@app.route('/reset-database', methods=['POST'])
+def reset_database():
+    try:
+        conn = sqlite3.connect(db_file)
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM emails")
+        cursor.execute("DELETE FROM sqlite_sequence WHERE name='emails'")
+        conn.commit()
+        conn.close()
+        return jsonify({"success": True, "message": "Database reset successfully"}), 200
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
 @app.route('/')
 def index():
     conn = sqlite3.connect(db_file)
