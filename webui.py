@@ -46,7 +46,8 @@ def get_results():
             "sender_address": email[3],
             "timestamp": email[4],
             "content": email[5],
-            "evaluation": email[6]
+            "evaluation": email[6],
+            "rating": email[7]
         }
         email_list.append(email_dict)
     return jsonify(email_list)

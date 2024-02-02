@@ -22,6 +22,7 @@
                 data.forEach(email => {
                     const emailDiv = document.createElement('div');
                     emailDiv.className = 'email-box';
+                    const ratingClass = email.rating >= 5 ? 'high-risk' : 'low-risk';
                     emailDiv.innerHTML = `
                         <h2 class="email-subject">${email.subject}</h2>
                         <div class="email-header">
@@ -36,7 +37,7 @@
                             </div>
                             <div class="evaluation">
                                 <h3>Evaluation</h3>
-                                <p>${email.evaluation}</p>
+                                <p class="${ratingClass}">${email.evaluation}</p>
                             </div>
                         </div>
                     `;
