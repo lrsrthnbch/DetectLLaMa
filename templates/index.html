@@ -10,6 +10,7 @@
     <div class="container">
         <div id="log" class="log-container"></div>
         <div id="results"></div>
+        <button id="resetBtn" class="reset-button">Reset Database</button>
     </div>
 
     <script>
@@ -22,7 +23,10 @@
                 data.forEach(email => {
                     const emailDiv = document.createElement('div');
                     emailDiv.className = 'email-box';
-                    const ratingClass = email.rating >= 5 ? 'high-risk' : 'low-risk';
+                    let ratingClass = '';
+                    if (email.rating !== null && email.rating !== undefined) {
+                        ratingClass = email.rating >= 5 ? 'high-risk' : 'low-risk';
+                    }
                     emailDiv.innerHTML = `
                         <h2 class="email-subject">${email.subject}</h2>
                         <div class="email-header">
@@ -48,7 +52,7 @@
                     }
                 });
             });
-    }
+        }
 
         
         function fetchLog() {
@@ -60,6 +64,16 @@
                 logContainer.scrollTop = logContainer.scrollHeight;
             });
         }
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            fetch('/reset-database', {
+                method: 'POST',
+            })
+            .then(() => {
+                location.reload();
+            })
+            .catch(error => console.error('Error resetting database:', error));
+        });
 
         setInterval(fetchResults, 1000);
         setInterval(fetchLog, 100);
