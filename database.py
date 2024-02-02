@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS emails (
     sender_address TEXT,
     timestamp TEXT,
     content TEXT,
-    evaluation TEXT
+    evaluation TEXT,
+    rating TEXT
 )
 '''
 
