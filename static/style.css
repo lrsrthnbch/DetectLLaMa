@@ -44,6 +44,14 @@ h1 {
     font-style: italic;
 }
 
+.evaluation .high-risk {
+    color: red;
+}
+
+.evaluation .low-risk {
+    color: green;
+}
+
 .log-container {
     background-color: black;
     color: #ffaa43;
