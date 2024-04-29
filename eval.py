@@ -12,10 +12,10 @@ def analyze_email(email_content):
     completion = client.chat.completions.create(
         model="local-model",
         messages=[
-            {"role": "system", "content": "Evaluate the following email for maliciousness. Always give it a rating in exactly the format **X** where X is a whole number from 1-10, 10 being the highest likelihood. After, provide a 3 sentence summary on why it is malicious or not."},
+            {"role": "system", "content": "Evaluate the following email for maliciousness. If the email appears to be malicious, reply with: This Email appears to be a fishing attempt. If it isn't malicious, reply with: This Email is safe."},
             {"role": "user", "content": email_content}
         ],
-        temperature=0.5,
+        temperature=0.6,
     )
 
     return completion.choices[0].message.content
